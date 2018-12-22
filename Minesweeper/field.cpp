@@ -1,41 +1,39 @@
 #include "stdafx.h"
+#include "component.h"
+#include "cell.h"
 #include "field.h"
 
 using namespace std;
 
 field::field(unsigned int size, unsigned int mines) : size(size), minesCount(mines)
 {
-	ifBomb = new bool *[size];
-	states = new unsigned int *[size];
+	cells = new cell *[size];
 	for (int i = 0; i < size; i++)
 	{
-		ifBomb[i] = new bool[size];
-		states[i] = new unsigned int[size];
+		cells[i] = new cell[size];
 		for (int j = 0; j < size; j++)
 		{
-			ifBomb[i][j] = false;
-			states[i][j] = 0;
+			cells[i][j].setIfBomb(false);
+			cells[i][j].setState(0);
 		}
 	}
 }
 
 field::field(unsigned int size, unsigned int bombsCount, string state, unsigned int * bombs) : size(size) , minesCount(bombsCount)
 {
-	ifBomb = new bool *[size];
-	states = new unsigned int *[size];
+	cells = new cell *[size];
 	for (int i = 0; i < size; i++)
 	{
-		ifBomb[i] = new bool[size];
-		states[i] = new unsigned int[size];
+		cells[i] = new cell[size];
 		for (int j = 0; j < size; j++)
 		{
-			ifBomb[i][j] = false;
-			states[i][j] = (int)state[size * i + j] - 48;
+			cells[i][j].setIfBomb(false);
+			cells[i][j].setState((int)state[size * i + j] - 48);
 		}
 	}
 	for (unsigned int k = 0; k < bombsCount; k++)
 	{
-		ifBomb[bombs[2 * k]][bombs[2 * k + 1]] = true;
+		cells[bombs[2 * k]][bombs[2 * k + 1]].setIfBomb(true);
 	}
 }
 
@@ -51,17 +49,17 @@ unsigned int field::returnBombsCount()
 
 bool field::ifCellIsBomb(unsigned int i, unsigned int j)
 {
-	return ifBomb[i][j];
+	return cells[i][j].returnIfBomb();
 }
 
 void field::changeState(unsigned int i, unsigned int j, int stateNumber)
 {
-	states[i][j] = stateNumber;
+	cells[i][j].setState(stateNumber);
 }
 
 unsigned int field::returnState(unsigned int i, unsigned int j)
 {
-	return states[i][j];
+	return cells[i][j].returnState();
 }
 
 bool field::ifVictory()
@@ -71,8 +69,8 @@ bool field::ifVictory()
 	{
 		for (int j = 0; j < size; j++)
 		{
-			if (states[i][j] == 1 && !ifBomb[i][j]) return false;
-			if (states[i][j] == 2 || states[i][j] == 1)
+			if (cells[i][j].returnState() == 1 && !cells[i][j].returnIfBomb()) return false;
+			if (cells[i][j].returnState() == 2 || cells[i][j].returnState() == 1)
 			{
 				counter++;
 			}
@@ -87,46 +85,46 @@ void field::plantBombs()
 	for (int i = 0; i < minesCount; i++)
 	{
 		unsigned int currBombNum = rand() % (size * size);
-		while (ifBomb[currBombNum / size][currBombNum % size])
+		while (cells[currBombNum / size][currBombNum % size].returnIfBomb())
 		{
 			currBombNum = rand() % (size * size);
 		}
-		ifBomb[currBombNum / size][currBombNum % size] = true;
+		cells[currBombNum / size][currBombNum % size].setIfBomb(true);
 	}
 }
 
 unsigned int field::minesCountAroundCell(unsigned int i, unsigned int j)
 {
 	int bombsAround = 0;
-	if (i > 0 && j > 0 && ifBomb[i - 1][j - 1])
+	if (i > 0 && j > 0 && cells[i - 1][j - 1].returnIfBomb())
 	{
 		bombsAround++;
 	}
-	if (i > 0 && ifBomb[i - 1][j])
+	if (i > 0 && cells[i - 1][j].returnIfBomb())
 	{
 		bombsAround++;
 	}
-	if (i > 0 && j < size - 1 && ifBomb[i - 1][j + 1])
+	if (i > 0 && j < size - 1 && cells[i - 1][j + 1].returnIfBomb())
 	{
 		bombsAround++;
 	}
-	if (j < size - 1 && ifBomb[i][j + 1])
+	if (j < size - 1 && cells[i][j + 1].returnIfBomb())
 	{
 		bombsAround++;
 	}
-	if (i < size - 1 && j < size - 1 && ifBomb[i + 1][j + 1])
+	if (i < size - 1 && j < size - 1 && cells[i + 1][j + 1].returnIfBomb())
 	{
 		bombsAround++;
 	}
-	if (i < size - 1 && ifBomb[i + 1][j])
+	if (i < size - 1 && cells[i + 1][j].returnIfBomb())
 	{
 		bombsAround++;
 	}
-	if (i < size - 1 && j > 0 && ifBomb[i + 1][j - 1])
+	if (i < size - 1 && j > 0 && cells[i + 1][j - 1].returnIfBomb())
 	{
 		bombsAround++;
 	}
-	if (j > 0 && ifBomb[i][j - 1])
+	if (j > 0 && cells[i][j - 1].returnIfBomb())
 	{
 		bombsAround++;
 	}
@@ -158,34 +156,34 @@ void field::draw()
 		cout << i << " ";
 		for (unsigned int j = 0; j < size; j++)
 		{
-			switch (states[i][j])
+			switch (cells[i][j].returnState())
 			{
-				case 0:
-				{
-					cout << "* ";
-					break;
-				}
-				case 1:
-				{
-					SetConsoleTextAttribute(hStdOut, (WORD)(0 | 6));
-					cout << char(43) << " ";
-					SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
-					break;
-				}
-				case 2:
-				{
-					SetConsoleTextAttribute(hStdOut, (WORD)(0 | 2));
-					cout << minesCountAroundCell(i, j) << " ";
-					SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
-					break;
-				}
-				case 3:
-				{
-					SetConsoleTextAttribute(hStdOut, (WORD)(0 | 4));
-					cout << char(164) << " ";
-					SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
-					break;
-				}
+			case 0:
+			{
+				cout << "* ";
+				break;
+			}
+			case 1:
+			{
+				SetConsoleTextAttribute(hStdOut, (WORD)(0 | 6));
+				cout << char(43) << " ";
+				SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
+				break;
+			}
+			case 2:
+			{
+				SetConsoleTextAttribute(hStdOut, (WORD)(0 | 2));
+				cout << minesCountAroundCell(i, j) << " ";
+				SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
+				break;
+			}
+			case 3:
+			{
+				SetConsoleTextAttribute(hStdOut, (WORD)(0 | 4));
+				cout << char(164) << " ";
+				SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
+				break;
+			}
 			}
 		}
 		cout << endl;
@@ -194,11 +192,6 @@ void field::draw()
 
 field::~field()
 {
-	for (int i = 0; i < size; i++)
-	{
-		delete ifBomb[i];
-		delete states[i];
-	}
-	delete[] ifBomb;
-	delete[] states;
+	for (int i = 0; i < size; i++) cells[i]->~cell();
+	delete cells;
 }

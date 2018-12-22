@@ -1,12 +1,12 @@
 #include "stdafx.h"
+#include "component.h"
+#include "cell.h"
 #include "field.h"
 #include "advancedFunctions.h"
 
 using namespace std;
 
-
-
-void introduction()
+void gameLogic::introduction()
 {
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdOut, (WORD)(0 | 2));
@@ -140,12 +140,12 @@ void introduction()
 			}
 			bombsCount /= 2;
 			field * fiel = new field(size, bombsCount, states, bombs);
-			if (fiel) currentTurn(fiel);
+			if (fiel) gameLogic::currentTurn(fiel);
 		}
 	}
 }
 
-void startGame()
+void gameLogic::startGame()
 {
 	string size;
 	string minesCount;
@@ -166,18 +166,19 @@ void startGame()
 	}
 	field * f = new field(atoi(size.c_str()), atoi(minesCount.c_str()));
 	f->plantBombs();
-	currentTurn(f);
+	gameLogic::currentTurn(f);
 }
 
-void currentTurn(field * f)
+void gameLogic::currentTurn(field * f)
 {
 	system("cls");
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdOut, (WORD)(0 | 2));
 	cout << endl << "Всего бомб на поле: " << f->returnBombsCount() << endl;
-	cout << "Число оставшихся бомб: " << f->returnBombsCount() - markedCellsCount(f) << endl << endl;
+	cout << "Число оставшихся бомб: " << f->returnBombsCount() - gameLogic::markedCellsCount(f) << endl << endl;
 	SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
-	f->draw();
+	component * comp = f;
+	comp->draw();
 	string com;
 	cout << endl;
 	cout << "Доступные действия:" << endl;
@@ -198,33 +199,34 @@ void currentTurn(field * f)
 	{
 	case 0:
 	{
-		string cell = suitableCell(f);
+		string cell = gameLogic::suitableCell(f);
 		unsigned int j = cell[0] - 65;
 		unsigned int i = atoi(cell.erase(0, 1).c_str());
-		markCell(f, i, j);
+		gameLogic::markCell(f, i, j);
 		break;
 	}
 	case 1:
 	{
-		string cell = suitableCell(f);
+		string cell = gameLogic::suitableCell(f);
 		unsigned int j = cell[0] - 65;
 		unsigned int i = atoi(cell.erase(0, 1).c_str());
-		openCell(f, i, j);
+		gameLogic::openCell(f, i, j);
 		break;
 	}
 	case 2:
 	{
-		saveGame(f);
-		ifContinue(f);
+		gameLogic::saveGame(f);
+		gameLogic::ifContinue(f);
 		break;
 	}
 	case 3:
 	{
-		loadOrDeleteSavedGame(f);
+		gameLogic::loadOrDeleteSavedGame(f);
 		break;
 	}
 	case 4:
 	{
+		f->~field();
 		cout << "Завершение игры..." << endl;
 		system("pause");
 		break;
@@ -232,7 +234,7 @@ void currentTurn(field * f)
 	}
 }
 
-string suitableCell(field *f)
+string gameLogic::suitableCell(field *f)
 {
 	string cell;
 	cout << "Введите номер ячейки поля в формате [номерCтолбца номерCтроки], например A0: ";
@@ -240,7 +242,7 @@ string suitableCell(field *f)
 	string bufCell = cell;
 	unsigned int bufJ = bufCell[0] - 65;
 	unsigned int bufI = atoi(bufCell.erase(0, 1).c_str());
-	while (!(checkCellNumber(f, cell) && f->returnState(bufI, bufJ) != 2))
+	while (!(gameLogic::checkCellNumber(f, cell) && f->returnState(bufI, bufJ) != 2))
 	{
 		cout << "Номер ячейки не верен. Введите снова: ";
 		cin >> cell;
@@ -251,7 +253,7 @@ string suitableCell(field *f)
 	return cell;
 }
 
-void markCell(field *f, unsigned int i, unsigned int j)
+void gameLogic::markCell(field *f, unsigned int i, unsigned int j)
 {
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	f->changeState(i, j, 1);
@@ -259,20 +261,21 @@ void markCell(field *f, unsigned int i, unsigned int j)
 	{
 		system("cls");
 		cout << endl;
-		f->draw();
+		component * comp = f;
+		comp->draw();
 		HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		SetConsoleTextAttribute(hStdOut, (WORD)(0 | 2));
 		cout << endl << "Вы выиграли!" << endl << endl;
 		SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
-		startNewGame();
+		startNewGame(f);
 	}
 	else
 	{
-		currentTurn(f);
+		gameLogic::currentTurn(f);
 	}
 }
 
-void openCell(field *f, unsigned int i, unsigned int j)
+void gameLogic::openCell(field *f, unsigned int i, unsigned int j)
 {
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (f->ifCellIsBomb(i, j))
@@ -294,25 +297,27 @@ void openCell(field *f, unsigned int i, unsigned int j)
 		}
 		system("cls");
 		cout << endl;
-		f->draw();
+		component * comp = f;
+		comp->draw();
 		SetConsoleTextAttribute(hStdOut, (WORD)(0 | 4));
 		cout << endl << "Вы наткнулись на бомбу. Вы проиграли!" << endl << endl;
 		SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
-		startNewGame();
+		startNewGame(f);
 	}
 	else
 	{
 		f->changeState(i, j, 2);
-		if (f->minesCountAroundCell(i, j) == 0) openCellsAroundZeroCell(i, j, f);
+		if (f->minesCountAroundCell(i, j) == 0) gameLogic::openCellsAroundZeroCell(i, j, f);
 		if (f->ifVictory())
 		{
 			system("cls");
 			cout << endl;
-			f->draw();
+			component * comp = f;
+			comp->draw();
 			SetConsoleTextAttribute(hStdOut, (WORD)(0 | 2));
 			cout << endl << "Вы выиграли!" << endl << endl;
 			SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
-			startNewGame();
+			startNewGame(f);
 		}
 		else
 		{
@@ -321,7 +326,7 @@ void openCell(field *f, unsigned int i, unsigned int j)
 	}
 }
 
-void saveGame(field *f)
+void gameLogic::saveGame(field *f)
 {
 	ofstream fout;
 	fout.open("saves.txt", ios_base::app);
@@ -356,13 +361,13 @@ void saveGame(field *f)
 			}
 		}
 	}
-	fout << encryption(bombsBuf, f); // сохраняем в файл зашифрованные позиции бомб
+	fout << gameLogic::encryption(bombsBuf, f); // сохраняем в файл зашифрованные позиции бомб
 	fout << endl;
 	fout.close();
 	cout << "Игра успешно сохранена." << endl;
 }
 
-void loadOrDeleteSavedGame(field *f)
+void gameLogic::loadOrDeleteSavedGame(field *f)
 {
 	system("cls");
 	cout << "Доступные сохранения:" << endl;
@@ -506,13 +511,13 @@ void loadOrDeleteSavedGame(field *f)
 			fstr << buf;
 			fstr.close();
 			cout << "Сохранение успешно удалено." << endl;
-			ifContinue(f);
+			gameLogic::ifContinue(f);
 			break;
 		}
 		}
 	}
 }
-string encryption(unsigned int * bombs, field *f)
+string gameLogic::encryption(unsigned int * bombs, field *f)
 {
 
 	unsigned int minesCount = f->returnBombsCount();
@@ -536,7 +541,7 @@ string encryption(unsigned int * bombs, field *f)
 	return str;
 }
 
-string decryption(string str)
+string gameLogic::decryption(string str)
 {
 	str += " ";
 	string newStr = " ";
@@ -598,7 +603,7 @@ string decryption(string str)
 	return newStr;
 }
 
-unsigned int changeNum(unsigned int num)
+unsigned int gameLogic::changeNum(unsigned int num)
 {
 	if (num == 11) num = 17;
 	else if (num == 17) num = 19;
@@ -610,7 +615,7 @@ unsigned int changeNum(unsigned int num)
 	return num;
 }
 
-bool ifStringIsInt(string str)
+bool gameLogic::ifStringIsInt(string str)
 {
 	int curInt = atoi(str.c_str());
 	int length = 0;
@@ -622,7 +627,7 @@ bool ifStringIsInt(string str)
 	return (str.length() == length || str == "0") ? true : false;
 }
 
-bool checkCellNumber(field * f, string cell)
+bool gameLogic::checkCellNumber(field * f, string cell)
 {
 	unsigned int size = f->returnSize();
 	char letter = cell[0];
@@ -630,7 +635,7 @@ bool checkCellNumber(field * f, string cell)
 	return (letter >= 65 && letter < 65 + size && number < size) ? true : false;
 }
 
-void startNewGame()
+void gameLogic::startNewGame(field *f)
 {
 	string newGame;
 	cout << "Начать новую игру (Y - да, N - нет)? ";
@@ -647,12 +652,13 @@ void startNewGame()
 	}
 	else
 	{
+		f->~field();
 		cout << "Завершение игры..." << endl;
 		system("pause");
 	}
 }
 
-void ifContinue(field *f)
+void gameLogic::ifContinue(field *f)
 {
 	string cont;
 	cout << "Желаете продолжить (Y - да, N - нет)? ";
@@ -669,12 +675,13 @@ void ifContinue(field *f)
 	}
 	else
 	{
+		f->~field();
 		cout << "Завершение игры..." << endl;
 		system("pause");
 	}
 }
 
-void openCellsAroundZeroCell(unsigned int x, unsigned int y, field * f)
+void gameLogic::openCellsAroundZeroCell(unsigned int x, unsigned int y, field * f)
 {
 	unsigned int size = f->returnSize();
 	if (x > 0 && f->returnState(x - 1, y) != 2)
@@ -699,7 +706,7 @@ void openCellsAroundZeroCell(unsigned int x, unsigned int y, field * f)
 	}
 }
 
-unsigned int markedCellsCount(field * f)
+unsigned int gameLogic::markedCellsCount(field * f)
 {
 	int count = 0;
 	unsigned int size = f->returnSize();

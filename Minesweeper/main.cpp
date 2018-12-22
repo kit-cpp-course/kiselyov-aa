@@ -2,6 +2,8 @@
 //
 
 #include "stdafx.h"
+#include "component.h"
+#include "cell.h"
 #include "field.h"
 #include "advancedFunctions.h"
 
@@ -11,6 +13,6 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 	system("mode con cols=100 lines=40");
-	introduction();
+	gameLogic::introduction();
 	return 0;
 }

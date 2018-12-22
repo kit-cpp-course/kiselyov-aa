@@ -15,7 +15,3 @@
 #include <Windows.h>
 #include <fstream>
 #include <cmath>
-
-
-
-// TODO: ”становите здесь ссылки на дополнительные заголовки, требующиеся для программы
