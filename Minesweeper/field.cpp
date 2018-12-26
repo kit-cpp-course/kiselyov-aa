@@ -11,11 +11,6 @@ field::field(unsigned int size, unsigned int mines) : size(size), minesCount(min
 	for (int i = 0; i < size; i++)
 	{
 		cells[i] = new cell[size];
-		for (int j = 0; j < size; j++)
-		{
-			cells[i][j].setIfBomb(false);
-			cells[i][j].setState(0);
-		}
 	}
 }
 
@@ -27,7 +22,6 @@ field::field(unsigned int size, unsigned int bombsCount, string state, unsigned 
 		cells[i] = new cell[size];
 		for (int j = 0; j < size; j++)
 		{
-			cells[i][j].setIfBomb(false);
 			cells[i][j].setState((int)state[size * i + j] - 48);
 		}
 	}
@@ -192,6 +186,5 @@ void field::draw()
 
 field::~field()
 {
-	for (int i = 0; i < size; i++) cells[i]->~cell();
-	delete cells;
+	for (int i = 0; i < size; i++) delete cells[i];
 }

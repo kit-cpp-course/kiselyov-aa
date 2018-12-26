@@ -145,15 +145,16 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="advancedFunctions.h" />
+    <ClInclude Include="standartGame.h" />
     <ClInclude Include="cell.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="field.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="advancedFunctions.cpp" />
+    <ClCompile Include="standartGame.cpp" />
     <ClCompile Include="cell.cpp" />
     <ClCompile Include="field.cpp" />
     <ClCompile Include="main.cpp" />
