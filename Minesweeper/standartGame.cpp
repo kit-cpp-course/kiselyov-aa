@@ -11,31 +11,31 @@ void standartGame::introduction()
 {
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdOut, (WORD)(0 | 2));
-	cout << endl << "Приветствуем тебя в игре 'Сапер'!" << endl << endl;
+	cout << endl << "РџСЂРёРІРµС‚СЃС‚РІСѓРµРј С‚РµР±СЏ РІ РёРіСЂРµ 'РЎР°РїРµСЂ'!" << endl << endl;
 	SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
 	string com;
-	cout << "Нажми на 'h' для вызова справки по игре, 's' для начала игры" << endl;
-	cout << "или 'l' для загрузки сохраненной игры: ";
+	cout << "РќР°Р¶РјРё РЅР° 'h' РґР»СЏ РІС‹Р·РѕРІР° СЃРїСЂР°РІРєРё РїРѕ РёРіСЂРµ, 's' РґР»СЏ РЅР°С‡Р°Р»Р° РёРіСЂС‹" << endl;
+	cout << "РёР»Рё 'l' РґР»СЏ Р·Р°РіСЂСѓР·РєРё СЃРѕС…СЂР°РЅРµРЅРЅРѕР№ РёРіСЂС‹: ";
 	cin >> com;
 	while (com != "h" && com != "s" && com != "l")
 	{
-		cout << "Неверный ввод. Введите снова: ";
+		cout << "РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ. Р’РІРµРґРёС‚Рµ СЃРЅРѕРІР°: ";
 		cin >> com;
 	}
 	cout << endl;
 	if (com == "h")
 	{
 		SetConsoleTextAttribute(hStdOut, (WORD)(0 | 2));
-		cout << "Поле возможно задавать размером size от 2 до 26 включительно." << endl;
-		cout << "Количество мин также может быть от 1 до размера (size * size - 1) включительно." << endl;
-		cout << "Ячейки поля могут быть 4 видов:" << endl;
-		cout << " * - ячейка закрыта;" << endl;
-		cout << " 0..8 - количество бомб вокруг данной ячейки;" << endl;
-		cout << " + - ячейка помечена;" << endl;
-		cout << " " << char(164) << " - в данной ячейке расположена бомба." << endl;
+		cout << "РџРѕР»Рµ РІРѕР·РјРѕР¶РЅРѕ Р·Р°РґР°РІР°С‚СЊ СЂР°Р·РјРµСЂРѕРј size РѕС‚ 2 РґРѕ 26 РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ." << endl;
+		cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ РјРёРЅ С‚Р°РєР¶Рµ РјРѕР¶РµС‚ Р±С‹С‚СЊ РѕС‚ 1 РґРѕ СЂР°Р·РјРµСЂР° (size * size - 1) РІРєР»СЋС‡РёС‚РµР»СЊРЅРѕ." << endl;
+		cout << "РЇС‡РµР№РєРё РїРѕР»СЏ РјРѕРіСѓС‚ Р±С‹С‚СЊ 4 РІРёРґРѕРІ:" << endl;
+		cout << " * - СЏС‡РµР№РєР° Р·Р°РєСЂС‹С‚Р°;" << endl;
+		cout << " 0..8 - РєРѕР»РёС‡РµСЃС‚РІРѕ Р±РѕРјР± РІРѕРєСЂСѓРі РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё;" << endl;
+		cout << " + - СЏС‡РµР№РєР° РїРѕРјРµС‡РµРЅР°;" << endl;
+		cout << " " << char(164) << " - РІ РґР°РЅРЅРѕР№ СЏС‡РµР№РєРµ СЂР°СЃРїРѕР»РѕР¶РµРЅР° Р±РѕРјР±Р°." << endl;
 		SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
 		cout << endl;
-		cout << "Удачной игры!" << endl;
+		cout << "РЈРґР°С‡РЅРѕР№ РёРіСЂС‹!" << endl;
 
 		system("pause");
 		system("cls");
@@ -49,7 +49,7 @@ void standartGame::introduction()
 	else if (com == "l")
 	{
 		system("cls");
-		cout << "Доступные сохранения:" << endl;
+		cout << "Р”РѕСЃС‚СѓРїРЅС‹Рµ СЃРѕС…СЂР°РЅРµРЅРёСЏ:" << endl;
 		ifstream fin("saves.txt");
 		string buf;
 		unsigned int saveNum = 1;
@@ -71,7 +71,7 @@ void standartGame::introduction()
 		fin.close();
 		if (saveNum == 1)
 		{
-			cout << endl << "Нет доступных сохранений." << endl;
+			cout << endl << "РќРµС‚ РґРѕСЃС‚СѓРїРЅС‹С… СЃРѕС…СЂР°РЅРµРЅРёР№." << endl;
 			system("pause");
 			system("cls");
 			startGame();
@@ -79,17 +79,17 @@ void standartGame::introduction()
 		else
 		{
 			string save;
-			cout << endl << "Введите номер сохранения: ";
+			cout << endl << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЃРѕС…СЂР°РЅРµРЅРёСЏ: ";
 			cin >> save;
 			while (save < "1" || save >= to_string(saveNum))
 			{
-				cout << "Неверный номер сохранения. Введите заново: ";
+				cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ СЃРѕС…СЂР°РЅРµРЅРёСЏ. Р’РІРµРґРёС‚Рµ Р·Р°РЅРѕРІРѕ: ";
 				cin >> save;
 			}
 			fstream fstr("saves.txt");
 			string curSave;
 			unsigned int curLine = 1;
-			while (getline(fstr, curSave)) // ищем подходящую строку в файле по номеру
+			while (getline(fstr, curSave)) // РёС‰РµРј РїРѕРґС…РѕРґСЏС‰СѓСЋ СЃС‚СЂРѕРєСѓ РІ С„Р°Р№Р»Рµ РїРѕ РЅРѕРјРµСЂСѓ
 			{
 				if (curLine == atoi(save.c_str()))
 				{
@@ -103,7 +103,7 @@ void standartGame::introduction()
 			string states = "";
 			unsigned int * bombs;
 			unsigned int lineSize = curSave.length();
-			for (int i = 0; i < lineSize; i++) // удаляем информацию о дате сохранения
+			for (int i = 0; i < lineSize; i++) // СѓРґР°Р»СЏРµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РґР°С‚Рµ СЃРѕС…СЂР°РЅРµРЅРёСЏ
 			{
 				if (curSave[i] == '|')
 				{
@@ -127,7 +127,7 @@ void standartGame::introduction()
 			bombs = new unsigned int[2 * (size * size - 1)];
 			curSave = decryption(curSave);
 			lineSize = curSave.length();
-			for (int i = 0; i < lineSize; i++) // ищем кол-во бомб и их расположение
+			for (int i = 0; i < lineSize; i++) // РёС‰РµРј РєРѕР»-РІРѕ Р±РѕРјР± Рё РёС… СЂР°СЃРїРѕР»РѕР¶РµРЅРёРµ
 			{
 				if (curSave[i] != ' ' && curSave[i - 1] == ' ' && curSave[i + 1] == ' ')
 				{
@@ -151,19 +151,19 @@ void standartGame::startGame()
 {
 	string size;
 	string minesCount;
-	cout << endl << "Введите размер поля: ";
+	cout << endl << "Р’РІРµРґРёС‚Рµ СЂР°Р·РјРµСЂ РїРѕР»СЏ: ";
 	cin >> size;
 	while (!(ifStringIsInt(size) && atoi(size.c_str()) > 1 && atoi(size.c_str()) < 27))
 	{
-		cout << "Неверный размер поля. Введите снова: ";
+		cout << "РќРµРІРµСЂРЅС‹Р№ СЂР°Р·РјРµСЂ РїРѕР»СЏ. Р’РІРµРґРёС‚Рµ СЃРЅРѕРІР°: ";
 		cin >> size;
 	}
 	int intSize = atoi(size.c_str());
-	cout << "Введите число мин: ";
+	cout << "Р’РІРµРґРёС‚Рµ С‡РёСЃР»Рѕ РјРёРЅ: ";
 	cin >> minesCount;
 	while (!(ifStringIsInt(minesCount) && atoi(minesCount.c_str()) > 0 && atoi(minesCount.c_str()) <= (intSize * intSize - 1)))
 	{
-		cout << "Неверное число мин. Введите снова: ";
+		cout << "РќРµРІРµСЂРЅРѕРµ С‡РёСЃР»Рѕ РјРёРЅ. Р’РІРµРґРёС‚Рµ СЃРЅРѕРІР°: ";
 		cin >> minesCount;
 	}
 	field * f = new field(atoi(size.c_str()), atoi(minesCount.c_str()));
@@ -176,24 +176,24 @@ void standartGame::currentTurn(field * f)
 	system("cls");
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hStdOut, (WORD)(0 | 2));
-	cout << endl << "Всего бомб на поле: " << f->returnBombsCount() << endl;
-	cout << "Число оставшихся бомб: " << f->returnBombsCount() - standartGame::markedCellsCount(f) << endl << endl;
+	cout << endl << "Р’СЃРµРіРѕ Р±РѕРјР± РЅР° РїРѕР»Рµ: " << f->returnBombsCount() << endl;
+	cout << "Р§РёСЃР»Рѕ РѕСЃС‚Р°РІС€РёС…СЃСЏ Р±РѕРјР±: " << f->returnBombsCount() - standartGame::markedCellsCount(f) << endl << endl;
 	SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
 	component * comp = f;
 	comp->draw();
 	string com;
 	cout << endl;
-	cout << "Доступные действия:" << endl;
-	cout << "0 - пометить ячейку поля;" << endl;
-	cout << "1 - открыть ячейку поля;" << endl;
-	cout << "2 - сохранить игру;" << endl;
-	cout << "3 - загрузить сохраненную игру;" << endl;
-	cout << "4 - завершить игру." << endl << endl;
-	cout << "Введите номер действия: ";
+	cout << "Р”РѕСЃС‚СѓРїРЅС‹Рµ РґРµР№СЃС‚РІРёСЏ:" << endl;
+	cout << "0 - РїРѕРјРµС‚РёС‚СЊ СЏС‡РµР№РєСѓ РїРѕР»СЏ;" << endl;
+	cout << "1 - РѕС‚РєСЂС‹С‚СЊ СЏС‡РµР№РєСѓ РїРѕР»СЏ;" << endl;
+	cout << "2 - СЃРѕС…СЂР°РЅРёС‚СЊ РёРіСЂСѓ;" << endl;
+	cout << "3 - Р·Р°РіСЂСѓР·РёС‚СЊ СЃРѕС…СЂР°РЅРµРЅРЅСѓСЋ РёРіСЂСѓ;" << endl;
+	cout << "4 - Р·Р°РІРµСЂС€РёС‚СЊ РёРіСЂСѓ." << endl << endl;
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РґРµР№СЃС‚РІРёСЏ: ";
 	cin >> com;
 	while (!(ifStringIsInt(com) && (atoi(com.c_str()) >= 0 && atoi(com.c_str()) <= 4)))
 	{
-		cout << "Неверный номер действия. Введите снова: ";
+		cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ РґРµР№СЃС‚РІРёСЏ. Р’РІРµРґРёС‚Рµ СЃРЅРѕРІР°: ";
 		cin >> com;
 	}
 	int curCom = atoi(com.c_str());
@@ -229,7 +229,7 @@ void standartGame::currentTurn(field * f)
 	case 4:
 	{
 		f->~field();
-		cout << "Завершение игры..." << endl;
+		cout << "Р—Р°РІРµСЂС€РµРЅРёРµ РёРіСЂС‹..." << endl;
 		system("pause");
 		break;
 	}
@@ -239,14 +239,14 @@ void standartGame::currentTurn(field * f)
 string standartGame::suitableCell(field *f)
 {
 	string cell;
-	cout << "Введите номер ячейки поля в формате [номерCтолбца номерCтроки], например A0: ";
+	cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЏС‡РµР№РєРё РїРѕР»СЏ РІ С„РѕСЂРјР°С‚Рµ [РЅРѕРјРµСЂCС‚РѕР»Р±С†Р° РЅРѕРјРµСЂCС‚СЂРѕРєРё], РЅР°РїСЂРёРјРµСЂ A0: ";
 	cin >> cell;
 	string bufCell = cell;
 	unsigned int bufJ = bufCell[0] - 65;
 	unsigned int bufI = atoi(bufCell.erase(0, 1).c_str());
 	while (!(standartGame::checkCellNumber(f, cell) && f->returnState(bufI, bufJ) != 2))
 	{
-		cout << "Номер ячейки не верен. Введите снова: ";
+		cout << "РќРѕРјРµСЂ СЏС‡РµР№РєРё РЅРµ РІРµСЂРµРЅ. Р’РІРµРґРёС‚Рµ СЃРЅРѕРІР°: ";
 		cin >> cell;
 		bufCell = cell;
 		bufJ = bufCell[0] - 65;
@@ -267,7 +267,7 @@ void standartGame::markCell(field *f, unsigned int i, unsigned int j)
 		comp->draw();
 		HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 		SetConsoleTextAttribute(hStdOut, (WORD)(0 | 2));
-		cout << endl << "Вы выиграли!" << endl << endl;
+		cout << endl << "Р’С‹ РІС‹РёРіСЂР°Р»Рё!" << endl << endl;
 		SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
 		startNewGame(f);
 	}
@@ -302,7 +302,7 @@ void standartGame::openCell(field *f, unsigned int i, unsigned int j)
 		component * comp = f;
 		comp->draw();
 		SetConsoleTextAttribute(hStdOut, (WORD)(0 | 4));
-		cout << endl << "Вы наткнулись на бомбу. Вы проиграли!" << endl << endl;
+		cout << endl << "Р’С‹ РЅР°С‚РєРЅСѓР»РёСЃСЊ РЅР° Р±РѕРјР±Сѓ. Р’С‹ РїСЂРѕРёРіСЂР°Р»Рё!" << endl << endl;
 		SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
 		startNewGame(f);
 	}
@@ -317,7 +317,7 @@ void standartGame::openCell(field *f, unsigned int i, unsigned int j)
 			component * comp = f;
 			comp->draw();
 			SetConsoleTextAttribute(hStdOut, (WORD)(0 | 2));
-			cout << endl << "Вы выиграли!" << endl << endl;
+			cout << endl << "Р’С‹ РІС‹РёРіСЂР°Р»Рё!" << endl << endl;
 			SetConsoleTextAttribute(hStdOut, (WORD)(0 | 15));
 			startNewGame(f);
 		}
@@ -338,13 +338,13 @@ void standartGame::saveGame(field *f)
 	localtime_s(&timeinfo, &seconds);
 	char* format = "%d %B %Y %H:%M:%S";
 	strftime(buffer, 80, format, &timeinfo);
-	fout << buffer << " | "; // сохраняем в файл дату сохранения
+	fout << buffer << " | "; // СЃРѕС…СЂР°РЅСЏРµРј РІ С„Р°Р№Р» РґР°С‚Сѓ СЃРѕС…СЂР°РЅРµРЅРёСЏ
 	unsigned int size = f->returnSize();
 	for (unsigned int i = 0; i < size; i++)
 	{
 		for (unsigned int j = 0; j < size; j++)
 		{
-			fout << f->returnState(i, j) << " "; // сохраняем в файл все состояния ячеек
+			fout << f->returnState(i, j) << " "; // СЃРѕС…СЂР°РЅСЏРµРј РІ С„Р°Р№Р» РІСЃРµ СЃРѕСЃС‚РѕСЏРЅРёСЏ СЏС‡РµРµРє
 		}
 	}
 	fout << "|";
@@ -363,16 +363,16 @@ void standartGame::saveGame(field *f)
 			}
 		}
 	}
-	fout << standartGame::encryption(bombsBuf, f); // сохраняем в файл зашифрованные позиции бомб
+	fout << standartGame::encryption(bombsBuf, f); // СЃРѕС…СЂР°РЅСЏРµРј РІ С„Р°Р№Р» Р·Р°С€РёС„СЂРѕРІР°РЅРЅС‹Рµ РїРѕР·РёС†РёРё Р±РѕРјР±
 	fout << endl;
 	fout.close();
-	cout << "Игра успешно сохранена." << endl;
+	cout << "РРіСЂР° СѓСЃРїРµС€РЅРѕ СЃРѕС…СЂР°РЅРµРЅР°." << endl;
 }
 
 void standartGame::loadOrDeleteSavedGame(field *f)
 {
 	system("cls");
-	cout << "Доступные сохранения:" << endl;
+	cout << "Р”РѕСЃС‚СѓРїРЅС‹Рµ СЃРѕС…СЂР°РЅРµРЅРёСЏ:" << endl;
 	ifstream fin("saves.txt");
 	string buf;
 	unsigned int saveNum = 1;
@@ -394,29 +394,29 @@ void standartGame::loadOrDeleteSavedGame(field *f)
 	fin.close();
 	if (saveNum == 1)
 	{
-		cout << endl << "Нет доступных сохранений." << endl;
+		cout << endl << "РќРµС‚ РґРѕСЃС‚СѓРїРЅС‹С… СЃРѕС…СЂР°РЅРµРЅРёР№." << endl;
 		system("pause");
 		currentTurn(f);
 	}
 	else
 	{
-		cout << endl << "Выберите действие:" << endl;
-		cout << "1. Загрузить игру;" << endl;
-		cout << "2. Удалить сохранение." << endl;
-		cout << endl << "Номер действия: ";
+		cout << endl << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ:" << endl;
+		cout << "1. Р—Р°РіСЂСѓР·РёС‚СЊ РёРіСЂСѓ;" << endl;
+		cout << "2. РЈРґР°Р»РёС‚СЊ СЃРѕС…СЂР°РЅРµРЅРёРµ." << endl;
+		cout << endl << "РќРѕРјРµСЂ РґРµР№СЃС‚РІРёСЏ: ";
 		string action;
 		cin >> action;
 		while (action != "1" && action != "2")
 		{
-			cout << "Неверный номер действия. Введите заново: ";
+			cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ РґРµР№СЃС‚РІРёСЏ. Р’РІРµРґРёС‚Рµ Р·Р°РЅРѕРІРѕ: ";
 			cin >> action;
 		}
 		string save;
-		cout << endl << "Введите номер сохранения: ";
+		cout << endl << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ СЃРѕС…СЂР°РЅРµРЅРёСЏ: ";
 		cin >> save;
 		while (save < "1" || save >= to_string(saveNum))
 		{
-			cout << "Неверный номер сохранения. Введите заново: ";
+			cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ СЃРѕС…СЂР°РЅРµРЅРёСЏ. Р’РІРµРґРёС‚Рµ Р·Р°РЅРѕРІРѕ: ";
 			cin >> save;
 		}
 		switch (atoi(action.c_str()))
@@ -427,7 +427,7 @@ void standartGame::loadOrDeleteSavedGame(field *f)
 			fstream fstr("saves.txt");
 			string curSave;
 			unsigned int curLine = 1;
-			while (getline(fstr, curSave)) // ищем подходящую строку в файле по номеру
+			while (getline(fstr, curSave)) // РёС‰РµРј РїРѕРґС…РѕРґСЏС‰СѓСЋ СЃС‚СЂРѕРєСѓ РІ С„Р°Р№Р»Рµ РїРѕ РЅРѕРјРµСЂСѓ
 			{
 				if (curLine == atoi(save.c_str()))
 				{
@@ -441,7 +441,7 @@ void standartGame::loadOrDeleteSavedGame(field *f)
 			string states = "";
 			unsigned int * bombs;
 			unsigned int lineSize = curSave.length();
-			for (int i = 0; i < lineSize; i++) // удаляем информацию о дате сохранения
+			for (int i = 0; i < lineSize; i++) // СѓРґР°Р»СЏРµРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РґР°С‚Рµ СЃРѕС…СЂР°РЅРµРЅРёСЏ
 			{
 				if (curSave[i] == '|')
 				{
@@ -465,7 +465,7 @@ void standartGame::loadOrDeleteSavedGame(field *f)
 			bombs = new unsigned int[2 * (size * size - 1)];
 			curSave = decryption(curSave);
 			lineSize = curSave.length();
-			for (int i = 0; i < lineSize; i++) // ищем кол-во бомб и их расположение
+			for (int i = 0; i < lineSize; i++) // РёС‰РµРј РєРѕР»-РІРѕ Р±РѕРјР± Рё РёС… СЂР°СЃРїРѕР»РѕР¶РµРЅРёРµ
 			{
 				if (curSave[i] != ' ' && curSave[i - 1] == ' ' && curSave[i + 1] == ' ')
 				{
@@ -512,7 +512,7 @@ void standartGame::loadOrDeleteSavedGame(field *f)
 			fstr.open("saves.txt", ios::out);
 			fstr << buf;
 			fstr.close();
-			cout << "Сохранение успешно удалено." << endl;
+			cout << "РЎРѕС…СЂР°РЅРµРЅРёРµ СѓСЃРїРµС€РЅРѕ СѓРґР°Р»РµРЅРѕ." << endl;
 			standartGame::ifContinue(f);
 			break;
 		}
@@ -640,11 +640,11 @@ bool standartGame::checkCellNumber(field * f, string cell)
 void standartGame::startNewGame(field *f)
 {
 	string newGame;
-	cout << "Начать новую игру (Y - да, N - нет)? ";
+	cout << "РќР°С‡Р°С‚СЊ РЅРѕРІСѓСЋ РёРіСЂСѓ (Y - РґР°, N - РЅРµС‚)? ";
 	cin >> newGame;
 	while (newGame != "Y" && newGame != "N")
 	{
-		cout << "Неверный ввод. Введите снова: ";
+		cout << "РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ. Р’РІРµРґРёС‚Рµ СЃРЅРѕРІР°: ";
 		cin >> newGame;
 	}
 	if (newGame == "Y")
@@ -655,7 +655,7 @@ void standartGame::startNewGame(field *f)
 	else
 	{
 		f->~field();
-		cout << "Завершение игры..." << endl;
+		cout << "Р—Р°РІРµСЂС€РµРЅРёРµ РёРіСЂС‹..." << endl;
 		system("pause");
 	}
 }
@@ -663,11 +663,11 @@ void standartGame::startNewGame(field *f)
 void standartGame::ifContinue(field *f)
 {
 	string cont;
-	cout << "Желаете продолжить (Y - да, N - нет)? ";
+	cout << "Р–РµР»Р°РµС‚Рµ РїСЂРѕРґРѕР»Р¶РёС‚СЊ (Y - РґР°, N - РЅРµС‚)? ";
 	cin >> cont;
 	while (cont != "Y" && cont != "N")
 	{
-		cout << "Неверный ввод. Введите снова: ";
+		cout << "РќРµРІРµСЂРЅС‹Р№ РІРІРѕРґ. Р’РІРµРґРёС‚Рµ СЃРЅРѕРІР°: ";
 		cin >> cont;
 	}
 	if (cont == "Y")
@@ -678,7 +678,7 @@ void standartGame::ifContinue(field *f)
 	else
 	{
 		f->~field();
-		cout << "Завершение игры..." << endl;
+		cout << "Р—Р°РІРµСЂС€РµРЅРёРµ РёРіСЂС‹..." << endl;
 		system("pause");
 	}
 }
