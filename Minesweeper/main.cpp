@@ -14,8 +14,7 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 	system("mode con cols=100 lines=40");
-	standartGame * newStandartGame = new standartGame();
-	game * newGame = newStandartGame;
-	newGame->introduction();
+	game & game = standartGame();
+	game.introduction();
 	return 0;
 }
